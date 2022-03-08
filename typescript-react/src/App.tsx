@@ -25,7 +25,12 @@ interface CourseSubmissionPart extends CourseDescription {
   exerciseSubmissionLink: string;
 }
 
- export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart;
+interface CourseRequirementsPart extends CourseDescription {
+  type: "special",
+  requirements: Array<string>
+}
+
+ export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart | CourseRequirementsPart;
 
 
 const App = () => {
@@ -55,6 +60,13 @@ const App = () => {
       description: "Confusing description",
       exerciseSubmissionLink: "https://fake-exercise-submit.made-up-url.dev",
       type: "submission"
+    },
+    {
+      name: "Backend development",
+      exerciseCount: 21,
+      description: "Typing the backend",
+      requirements: ["nodejs", "jest"],
+      type: "special"
     }
   ];
 

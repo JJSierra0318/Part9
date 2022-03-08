@@ -32,6 +32,14 @@ const Part = (props: CoursePart) => {
           <br/>submit to {props.exerciseSubmissionLink}</p>
         </div>
       )
+    case "special":
+      return (
+        <div>
+          <p><strong>{props.name} {props.exerciseCount}</strong>
+          <br/><em>{props.description}</em>
+          <br/>required skills: {props.requirements.join(', ')}</p>
+        </div>
+      )
     default:
       return asserNever(props)
   }
