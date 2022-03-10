@@ -49,6 +49,13 @@ const parseGender = (gender: unknown): Gender => {
   return gender;
 };
 
+const parseEntries = (): Array<string> => {
+  /*if (!entries || !Array.isArray(entries)) {
+    throw new Error('Incorrect or missing entries');
+  }*/
+  return [] as Array<string>;
+};
+
 type Fields = { name: unknown, ssn: unknown, dateOfBirth: unknown, occupation: unknown, gender: unknown };
 
 const toNewPatientEntry = ({ name, ssn, dateOfBirth, occupation, gender }: Fields): NewPatientEntry => {
@@ -57,7 +64,8 @@ const toNewPatientEntry = ({ name, ssn, dateOfBirth, occupation, gender }: Field
     ssn: parseSsn(ssn),
     dateOfBirth: parseDate(dateOfBirth),
     occupation: parseOccupation(occupation),
-    gender: parseGender(gender)
+    gender: parseGender(gender),
+    entries: parseEntries()
   };
   return newEntry;
 };

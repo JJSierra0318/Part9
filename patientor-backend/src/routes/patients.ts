@@ -4,12 +4,18 @@ import toNewPatientEntry from "../utils";
 
 const patientRouter = express.Router();
 
+patientRouter.get('/:id', (req, res) => {
+  res.send(patientService.getEntriesById(req.params.id));
+});
+
 patientRouter.get('/', (_req, res) => {
-  res.send(patientService.getNonSensitiveEntries());
+  res.send(patientService.getEntries());
+  //res.send(patientService.getNonSensitiveEntries());
 });
 
 patientRouter.post('/', (req, res) => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const newPatientEntry = toNewPatientEntry(req.body);
     const addedPatient = patientService.addPatient(newPatientEntry);
     res.json(addedPatient);
