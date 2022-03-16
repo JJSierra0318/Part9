@@ -1,4 +1,4 @@
-import { Gender, NewPatientEntry, Entry, Discharge, SickLeave, HealthCheckRating, HospitalEntry, OccupationalHealthcareEntry, HealthCheckEntry, baseEntry } from "./types";
+import { Gender, NewPatientEntry, Entry, Discharge, SickLeave, HealthCheckRating, baseEntry, NewEntry } from "./types";
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -162,7 +162,7 @@ type EntryFields = {description: unknown, date: unknown, specialist: unknown, di
 healthCheckRating?: unknown, employerName?:unknown, sickLeave?: unknown, discharge?: unknown};
 
 const toNewEntry = ({description, date, specialist, diagnosisCodes, type, healthCheckRating, employerName, sickLeave, discharge}: EntryFields)
-: HospitalEntry | OccupationalHealthcareEntry | HealthCheckEntry => {
+: NewEntry => {
   const newEntry: Omit<baseEntry,'id'> = {
     date: parseDate(date),
     specialist: parseSpecialist(specialist),
@@ -171,11 +171,11 @@ const toNewEntry = ({description, date, specialist, diagnosisCodes, type, health
   if (diagnosisCodes) newEntry.diagnosisCodes = parseDiagnosisCodes(diagnosisCodes);
   switch (type) {
     case 'Hospital':
-      return {...newEntry, discharge: parseDischarge(discharge), type: 'Hospital', id: ''};
+      return {...newEntry, discharge: parseDischarge(discharge), type: 'Hospital'};
     case 'OccupationalHealthcare':
-      return {...newEntry, employerName: parseEmployerName(employerName), sickLeave: parseSickLeave(sickLeave), type:'OccupationalHealthcare', id: '',};
+      return {...newEntry, employerName: parseEmployerName(employerName), sickLeave: parseSickLeave(sickLeave), type:'OccupationalHealthcare',};
     case 'HealthCheck':
-      return {...newEntry, healthCheckRating: parseHealthCheckRating(healthCheckRating), type:'HealthCheck', id: '',};
+      return {...newEntry, healthCheckRating: parseHealthCheckRating(healthCheckRating), type:'HealthCheck'};
     default:
       throw new Error('Something went wrong');
   }
