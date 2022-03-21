@@ -13,6 +13,7 @@ import AddEntryModal from "../AddEntryModal";
 import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
 import axios from "axios";
 import { apiBaseUrl } from "../constants";
+import DiagnosesList from "./DiagnosesList";
 //Component for HealthCheck entry
 const HealthCheck = (entry: HealthCheckEntry) => {
   const heartColor = (rating: number): string => {
@@ -29,12 +30,15 @@ const HealthCheck = (entry: HealthCheckEntry) => {
         return '';
     }
   };
-
+  const [{diagnoses}] = useStateValue();
   return (
     <div style={{ border: '1px solid' }}>
       <ul>
         <li>{entry.date} <MedicalServicesIcon/></li>
       </ul>
+      {entry.diagnosisCodes
+        ? <DiagnosesList diagnoses={entry.diagnosisCodes.map((code) => diagnoses[code] ?? {code, name: 'Unknown'})}/>
+        : null}
       <p>{entry.description}</p>
       <FavoriteIcon style={{ color: heartColor(entry.healthCheckRating) }}/>
       <p>diagnose by {entry.specialist}</p>
@@ -44,11 +48,16 @@ const HealthCheck = (entry: HealthCheckEntry) => {
 
 //Component for OccupationalHealthcare Entry
 const OccupationalHealthcare = (entry: OccupationalHealthcareEntry) => {
+  const [{diagnoses}] = useStateValue();
+  console.log(entry);
   return (
     <div style={{ border: '1px solid' }}>
       <ul>
         <li>{entry.date} <WorkIcon /> <em>{entry.employerName}</em></li>
       </ul>
+      {entry.diagnosisCodes
+        ? <DiagnosesList diagnoses={entry.diagnosisCodes.map((code) => diagnoses[code] ?? {code, name: 'Unknown'})}/>
+        : null}
       <p>{entry.description}</p>
       {entry.sickLeave 
         ? <p>Authorized sick leave from {entry.sickLeave.startDate} to {entry.sickLeave.endDate}</p>
@@ -60,11 +69,15 @@ const OccupationalHealthcare = (entry: OccupationalHealthcareEntry) => {
 
 //Component for Hospital Entry
 const Hospital = (entry: HospitalEntry) => {
+  const [{diagnoses}] = useStateValue();
   return (
     <div style={{ border: '1px solid' }}>
       <ul>
         <li>{entry.date} <LocalHospitalIcon /></li>
       </ul>
+      {entry.diagnosisCodes
+        ? <DiagnosesList diagnoses={entry.diagnosisCodes.map((code) => diagnoses[code] ?? {code, name: 'Unknown'})}/>
+        : null}
       <p>{entry.description}</p>
       <p>Patient will be discharged on {entry.discharge.date} when: {entry.discharge.criteria}</p>
       <p>diagnose by {entry.specialist}</p>
