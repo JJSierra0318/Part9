@@ -17,8 +17,6 @@ patientRouter.post('/:id/entries', (req, res) => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const newEntry = formater.toNewEntry(req.body);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const addedEntry = patientService.addEntry(req.params.id, newEntry);
     res.json(addedEntry);
   } catch (error: unknown) {
