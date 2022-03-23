@@ -82,7 +82,7 @@ const toNewPatientEntry = ({ name, ssn, dateOfBirth, occupation, gender, entries
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isDischarge = (param: any): param is Discharge => {
-  if (!param.date || param.criteria) {
+  if (!param.date || !param.criteria) {
     return false;
   }
   return true;
@@ -152,10 +152,11 @@ const parseSickLeave = (sickLeave: unknown): SickLeave => {
 };
 
 const parseHealthCheckRating = (healthCheckRating: unknown) => {
-  if (!healthCheckRating || !isHealthCheckRating(healthCheckRating)) {
+  const rating = Number(healthCheckRating);
+  if (!healthCheckRating || !isHealthCheckRating(rating)) {
     throw new Error('Incorrect or missing health check rating');
   }
-  return healthCheckRating;
+  return rating;
 };
 
 type EntryFields = {description: unknown, date: unknown, specialist: unknown, diagnosisCodes?: unknown, type: unknown,
@@ -168,7 +169,9 @@ const toNewEntry = ({description, date, specialist, diagnosisCodes, type, health
     specialist: parseSpecialist(specialist),
     description: parseDescription(description),
   };
+  console.log(diagnosisCodes);
   if (diagnosisCodes) newEntry.diagnosisCodes = parseDiagnosisCodes(diagnosisCodes);
+  console.log(newEntry);
   switch (type) {
     case 'Hospital':
       return {...newEntry, discharge: parseDischarge(discharge), type: 'Hospital'};

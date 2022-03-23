@@ -49,7 +49,6 @@ const HealthCheck = (entry: HealthCheckEntry) => {
 //Component for OccupationalHealthcare Entry
 const OccupationalHealthcare = (entry: OccupationalHealthcareEntry) => {
   const [{diagnoses}] = useStateValue();
-  console.log(entry);
   return (
     <div style={{ border: '1px solid' }}>
       <ul>
@@ -122,7 +121,8 @@ const PatientInfoPage = () => {
 
   const submitNewEntry = async (values: EntryFormValues) => {
     try {
-      const { data: newEntry } = await axios.post<Patient>(`${apiBaseUrl}/patients/:id/entries`, values);
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      const { data: newEntry } = await axios.post<Patient>(`${apiBaseUrl}/patients/${id}/entries`, values);
       dispatch(updatePatient(newEntry));
       closeModal();
     } catch (error: unknown) {

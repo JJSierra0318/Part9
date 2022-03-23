@@ -50,7 +50,7 @@ export const SelectField = ({ name, label, options }: SelectFieldProps) => (
   </>
 );
 
-interface TextProps extends FieldProps {
+export interface TextProps extends FieldProps {
   label: string;
   placeholder: string;
 }

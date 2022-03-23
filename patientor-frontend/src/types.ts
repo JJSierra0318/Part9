@@ -27,7 +27,7 @@ interface SickLeave {
   endDate: string
 }
 
-interface baseEntry {
+export interface baseEntry {
   id: string,
   description: string,
   date: string,
